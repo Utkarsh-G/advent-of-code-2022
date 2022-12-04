@@ -9,9 +9,9 @@ subset_count = 0
 start = time.time()
 for pair in pairs:
 	lots = pair.replace('-',',').split(',')
-	
-	# ugh. Uglier to write, but likely more efficient than making set()s
-	is_subset = (int(lots[0]) <= int(lots[2]) and int(lots[1]) >= int(lots[3])) or (int(lots[0]) >= int(lots[2]) and int(lots [1]) <= int(lots[3]))
+	set1 = set(range(int(lots[0]), int(lots[1])+1))
+	set2 = set(range(int(lots[2]), int(lots[3])+1))
+	is_subset = set1.issubset(set2) or set2.issubset(set1)
 	if is_subset:
 		subset_count += 1
 

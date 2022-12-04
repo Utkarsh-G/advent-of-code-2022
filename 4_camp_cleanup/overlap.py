@@ -1,9 +1,12 @@
 import sys
+import time
 
 with open(sys.argv[1], 'r') as f:
 	pairs = f.readlines()
 
 overlap_count = 0
+
+start = time.time()
 
 for pair in pairs:
 	lots = pair.replace('-',',').split(',')
@@ -23,5 +26,7 @@ for pair in pairs:
 	if is_overlap:
 		overlap_count += 1
 
+end = time.time()
+print (end - start)
 print overlap_count 
 
