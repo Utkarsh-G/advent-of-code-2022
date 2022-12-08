@@ -58,23 +58,26 @@ with open(sys.argv[1], 'r') as f:
 
 is_not_root = True
 
-def propagate_sizes(node):
-	is_root = node.name == "/"
-	parent_node = node.parent
-	parent_node.size += node.size
-	if not is_root:
-		print(f"prop parent {parent_node.name} : {parent_node.size}")
-		propagate_sizes(parent_node)
-	else:
-		print(f"prop / : {node.size}")
-		return
-
 while is_not_root: 
 	temp_parent_node = temp_parent_node.parent
-	sizes = [x.size for x in temp_parent_node.children]
-	sum = 0
-	for num in sizes:
-		sum += num
-	#temp_parent_node.size += sum
 	print(f"Node: {temp_parent_node.name} size: {temp_parent_node.size}")
 	is_not_root = temp_parent_node.name != "/"
+
+sum_of_dirs = 0
+
+def traverse_tree(node, sum_of_dirs):
+	if len(node.children) > 0:
+		print(f"dir size: {node.size} cur sum:{sum_of_dirs}")
+		this_sum = sum_of_dirs
+		for n in node.children:
+			print(f"before for {sum_of_dirs}")
+			sum_of_dirs += traverse_tree(n, this_sum)
+			print(f"after for {sum_of_dirs}")
+		sum_of_dirs += node.size if node.size <= 100000 else 0
+		print(f"{node.name} : {node.size} sum: {sum_of_dirs}")
+		return sum_of_dirs
+	else:
+		return 0
+
+sum_of_dirs = traverse_tree(root_node, 0)
+print (sum_of_dirs)
