@@ -44,8 +44,27 @@ with open(sys.argv[1], 'r') as f:
 		line = f.readline().strip()
 		row_index += 1
 		
+tallest_in_column = -1
 
+for j in range(num_col):
+	for i in range(num_row):
+		if trees[i][j].height > tallest_in_column:
+			trees[i][j].setVisible()
+			tallest_in_column = trees[i][j].height
+	tallest_in_column = -1
+
+	for i in range(num_row-1, 0, -1):
+		if trees[i][j].height > tallest_in_column:
+			trees[i][j].setVisible()
+			tallest_in_column = trees[i][j].height
+	tallest_in_column = -1
+
+num_visible_trees = 0
 for i in range(num_row):
 	for j in range(num_col):
+		if trees[i][j].visible:
+			num_visible_trees += 1
 		print(f"{trees[i][j].height}{trees[i][j].visible}", end=" ")
 	print("\n")
+
+print(num_visible_trees)
