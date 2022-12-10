@@ -11,25 +11,17 @@ knots_position=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)] # 9
 def new_tail_position(headp, tailp):
 	diff_x = headp[0] - tailp[0]
 	diff_y = headp[1] - tailp[1]
-	new_tailp = tailp
-		
-	new_tailp_x = int((tailp[0]+headp[0])/2) if headp[0] > tailp[0] else int(math.ceil( (float(tailp[0])+float(headp[0]))/2  ))
-	if headp==(-11,-4):
-		print(f"h/t {headp}  {tailp}")
-		print(int((tailp[1]+headp[1])/2))
-	new_tailp_y = int((tailp[1]+headp[1])/2) if headp[1] > tailp[1] else int(math.ceil( (float(tailp[1])+float(headp[1]))/2  ))
 	
-	if headp==(-11,-5) or headp==(-11,-4) or tailp==(-10,-4):
-		print(f"Head: {headp} tail:{tailp}")
-		print(f"Special position, calculated x: {new_tailp_x}, y:{new_tailp_y}")
-	#make it diagonal:
-	if abs(diff_x) == 2 and abs(diff_y) == 1:
-		new_tailp_y = headp[1]
-	if abs(diff_y) == 2 and abs(diff_x) == 1:
-		new_tailp_x = headp[0]	
-	if headp==(-11,-4) or tailp==(-10,-4):
-		print(f"Special position, post diag:  calculated x: {new_tailp_x}, y:{new_tailp_y}")
-	return (new_tailp_x, new_tailp_y)
+	map_of_snap = {(0,2):(0,1), (1,2):(1,1), (2,2):(1,1), (2,1):(1,1),
+		(2,0):(1,0), (2,-1):(1,-1), (2,-2):(1,-1), (1,-2):(1,-1),
+		(0,-2):(0,-1), (-1,-2):(-1,-1), (-2,-2):(-1,-1), (-2,-1):(-1,-1),
+		(-2,0):(-1,0), (-2,1):(-1,1), (-2,2):(-1,1), (-1,2):(-1,1)}
+	
+	move = (0,0)
+	if (diff_x, diff_y) in map_of_snap:
+		move = map_of_snap[(diff_x, diff_y)]	
+		
+	return (tailp[0]+move[0], tailp[1]+move[1])
 	
 with open(sys.argv[1], 'r') as f:
 	line = f.readline()
