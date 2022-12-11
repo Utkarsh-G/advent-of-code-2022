@@ -9,8 +9,9 @@ def print_20s(turn, signal, render):
 		#print(signal)
 	
 		#print(render)
-	if turn > 40 and (turn%40 == 1):
+	if turn > 1 and (turn%40)==0:
 		print(render)
+		render = ""
 	return render
 
 with open(sys.argv[1], 'r') as f:
