@@ -1,0 +1,32 @@
+import sys
+
+turn = 0
+signal = 1
+running_sum = 0
+
+def print_20s(turn, signal, running_sum):
+	if turn == 20 or turn == 60 or turn == 100 or turn == 140 or turn == 180 or turn == 220:
+		print(signal)
+		running_sum += signal*turn
+		print(running_sum)
+		return running_sum
+	return running_sum
+
+with open(sys.argv[1], 'r') as f:
+	line = f.readline()
+
+	while line:
+		instruction = line.strip().split(" ")
+		
+		if instruction[0]=="noop":
+			turn += 1
+			running_sum = print_20s(turn, signal, running_sum)
+		
+		if instruction[0]=="addx":
+			for i in range(2):
+				turn += 1
+				running_sum = print_20s(turn, signal, running_sum)
+			signal += int(instruction[1])
+
+		line = f.readline()
+		
