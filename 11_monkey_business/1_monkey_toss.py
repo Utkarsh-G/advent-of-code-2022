@@ -10,7 +10,14 @@ def process_monkey_text(text):
     true_target = int(split_text[4].strip().split(" ")[-1])
     false_target = int(split_text[5].strip().split(" ")[-1])
 
-    return {starting_items, worry_operation, divisibility_test, true_target, false_target}
+    return {
+        "items": starting_items,
+        "worry_operation": worry_operation,
+        "divisibility_test": divisibility_test,
+        "true_target": true_target,
+        "false_target": false_target,
+        "inspection_count": 0,
+    }
 
 with open(sys.argv[1], 'r') as f:
     text = f.read()
@@ -19,11 +26,23 @@ with open(sys.argv[1], 'r') as f:
 
     number_of_monkeys = len(monkeys_str)
 
-    monkeys = []
+    monkeys = [process_monkey_text(x) for x in monkeys_str]
 
-    [process_monkey_text(x) for x in monkeys_str]
+def examine_and_throw_items(monkey, all_monkeys):
+    for i in range(len(monkey["items"])):
+        old = monkey["items"][i]
+        new_value = int(eval(monkey["worry_operation"]) / 3) # examine and get bored
+        if (new_value % monkey["divisibility_test"]) == 0:
+            all_monkeys[monkey["true_target"]]["items"].append(new_value)
+        else:
+            all_monkeys[monkey["false_target"]]["items"].append(new_value)
+    monkey["items"] = []
+    #print("post emptying one monkey's list")
+    #print(all_monkeys)
 
+for i in range(20):
+    for monkey in monkeys:
+        examine_and_throw_items(monkey, monkeys)
 
-
-
+print(monkeys)
     
