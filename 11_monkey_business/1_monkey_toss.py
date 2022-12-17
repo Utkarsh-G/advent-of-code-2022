@@ -32,17 +32,20 @@ def examine_and_throw_items(monkey, all_monkeys):
     for i in range(len(monkey["items"])):
         old = monkey["items"][i]
         new_value = int(eval(monkey["worry_operation"]) / 3) # examine and get bored
+        monkey["inspection_count"] += 1
         if (new_value % monkey["divisibility_test"]) == 0:
             all_monkeys[monkey["true_target"]]["items"].append(new_value)
         else:
             all_monkeys[monkey["false_target"]]["items"].append(new_value)
     monkey["items"] = []
-    #print("post emptying one monkey's list")
-    #print(all_monkeys)
 
 for i in range(20):
     for monkey in monkeys:
         examine_and_throw_items(monkey, monkeys)
 
-print(monkeys)
+counts = [m["inspection_count"] for m in monkeys]
+counts.sort()
+
+print(counts[-2:])
+print(counts[-2]*counts[-1])
     
